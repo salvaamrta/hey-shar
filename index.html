@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐧 | my dearest, shar!✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 60px 15px;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(#fffaf0, #f0faff), url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: #ffffffdd;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      padding: 40px 20px 40px 20px;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      transition: transform 0.4s ease, min-height 0.5s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    h1 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.5em;
+      margin: 10px 0 20px;
+      color: #3a4a5a;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    .btn {
+      background-color: #f4cda4;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e3b685;
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .message {
+      display: none;
+      margin-top: 40px;
+      font-size: 1.05em;
+      color: #3a4a5a;
+      background-color: #fffdf5;
+      padding: 18px;
+      border-radius: 15px;
+      border: 1px solid #e8dcc9;
+      animation: fadeIn 1s forwards;
+      line-height: 1.8;
+      text-align: left;
+      box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      animation: fadeInTitle 1s ease-out;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 15px;
+      }
+
+      .message {
+        font-size: 0.95em;
+        padding: 15px;
+      }
+
+      h1 {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 2em;
+        color: #3a4a5a;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti" class="confetti"></canvas>
+<audio id="bgMusic" src="music.mp3"></audio>
+
+<div class="card" id="greetingCard">
+  <h1>🌼 for shar, who's blooming in her own time 🌼</h1>
+  <button class="btn" aria-label="Open your card message" onclick="revealMessage()">open your 💌</button>
+  <p class="message" id="message">
+    <!-- message content here -->
+    <strong>hey shar 🫶,</strong><br>
+<img src="photo.png" alt="A photo of us" style="max-width: 300px; display: block; margin: 15px auto 5px; background: transparent;" />
+  <small style="display: block; text-align: center; ">just wanna drop a little love note for yoouu</small><br>
+    happy birthday, my girlie!!<br><br>
+    it makes me so happy seeing u in this era — finding your rhythm, enjoying your pace, and making that comeback in your own calm, beautiful way 😌✨<br><br>
+    you’re doing <em>so</em> well, and i hope you know there’s zero rush. life isn’t a race. i just hope you keep soaking in these present moments, exactly like you’ve been doing. you're allowed to grow slow, to rest, to celebrate even the smallest wins 💛 <br><br>
+    i’m beyond proud of you.. like you’ve got something really special in you — and i’m lucky to witness it up close 💐<br><br>
+    and idc what life throws at u — i’ll always be in your corner, cheering u on 💗<br><br><br>
+    always rooting for u,<br>
+    culpey🫧
+  </p>
+</div>
+
+<script>
+  function revealMessage() {
+    const card = document.getElementById("greetingCard");
+    const messageElement = document.getElementById("message");
+    const button = document.querySelector(".btn");
+    const music = document.getElementById("bgMusic");
+
+    // Hide the button
+    button.style.display = "none";
+
+    // Show the message
+    messageElement.style.display = "block";
+    messageElement.style.marginTop = "40px";
+
+    // Increase card height if needed
+    card.style.minHeight = "600px";
+
+    // Play music
+    music.play();
+    // Start confetti
+    startConfetti();
+  }
+
+  // Confetti setup
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let confetti = [];
+  const colors = ['#FFD1DC', '#B5EAD7', '#C7CEEA', '#FFF5BA', '#E0BBE4', '#FFDAC1'];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function Confetto() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height - canvas.height;
+    this.radius = Math.random() * 6 + 4;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.speed = Math.random() * 3 + 2;
+    this.tilt = Math.random() * 10 - 5;
+
+    this.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x + this.tilt, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    };
+
+    this.update = function () {
+      this.y += this.speed;
+      if (this.y > canvas.height) {
+        this.y = -10;
+        this.x = Math.random() * canvas.width;
+      }
+    };
+  }
+
+  function startConfetti() {
+    const numConfetti = window.innerWidth < 600 ? 50 : 100; // Reduce confetti on small screens
+    for (let i = 0; i < numConfetti; i++) {
+      confetti.push(new Confetto());
+    }
+    animateConfetti();
+  }
+
+function animateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < confetti.length; i++) {
+    confetti[i].update();
+    confetti[i].draw();
+  }
+  requestAnimationFrame(animateConfetti);
+}
+
+</script>
+</body>
+</html>
